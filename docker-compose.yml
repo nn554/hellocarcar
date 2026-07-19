@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: hellocarcar
+      POSTGRES_USER: hellocarcar
+      POSTGRES_PASSWORD: change-me
+    ports: ["5432:5432"]
+    volumes: ["hellocarcar-postgres:/var/lib/postgresql/data"]
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+volumes:
+  hellocarcar-postgres:

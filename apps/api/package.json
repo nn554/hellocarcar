@@ -1,0 +1,6 @@
+{
+  "name": "@hellocarcar/api",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "node src/server.mjs", "check": "node --check src/server.mjs" }
+}

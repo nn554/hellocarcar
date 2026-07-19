@@ -1,0 +1,5 @@
+{
+  "name": "@hellocarcar/web",
+  "private": true,
+  "scripts": { "dev": "node ../../scripts/serve-static.mjs . 4173" }
+}

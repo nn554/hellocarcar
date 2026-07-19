@@ -1,0 +1,11 @@
+{
+  "name": "hellocarcar",
+  "private": true,
+  "version": "0.1.0",
+  "description": "HelloCarCar procurement decision assistant MVP",
+  "scripts": {
+    "web:dev": "node scripts/serve-static.mjs apps/web 4173",
+    "api:dev": "node apps/api/src/server.mjs",
+    "check": "node scripts/check.mjs"
+  }
+}
