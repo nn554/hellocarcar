@@ -122,7 +122,7 @@
 
 /* Layered ambient canvas: the page floats above a persistent world map atmosphere. */
 .hc-home{position:relative;isolation:isolate;background:#f3f7f3}
-.hc-home>.hc-header,.hc-home>main,.hc-home>.hc-footer{position:relative;z-index:2}
+.hc-home>.hc-header,.hc-home>main,.hc-home>.hc-bottom-zone{position:relative;z-index:2}
 .hc-ambient-backdrop{position:fixed;z-index:0;inset:0;overflow:hidden;pointer-events:none;background:radial-gradient(circle at 16% 12%,#fff 0 8%,transparent 33%),radial-gradient(circle at 83% 18%,#dcecdf 0,transparent 31%),radial-gradient(circle at 52% 88%,#e9f2df 0,transparent 36%),linear-gradient(145deg,#f8faf7 0%,#edf4ee 48%,#f8faf5 100%)}
 .hc-ambient-backdrop::after{content:"";position:absolute;inset:0;background:linear-gradient(118deg,transparent 0 34%,#ffffff70 45%,transparent 57%);transform:translateX(-70%);animation:hc-ambient-sheen 24s ease-in-out infinite}
 .hc-ambient-grid{position:absolute;inset:0;opacity:.2;background-image:linear-gradient(#4b82560c 1px,transparent 1px),linear-gradient(90deg,#4b82560c 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(to bottom,transparent 2%,#000 25%,#000 82%,transparent 100%)}
@@ -167,8 +167,9 @@
 .hc-membership{box-sizing:border-box;margin-top:76px;margin-bottom:90px;padding:44px;border:1px solid #ffffffd1;border-radius:34px;background:#ffffff69;backdrop-filter:blur(22px);box-shadow:0 25px 80px #2b4f3513}
 .hc-plan-card{background:#ffffffa3;border-color:#ffffffdf;backdrop-filter:blur(14px);box-shadow:0 16px 44px #284c3210}
 .hc-plan-pro{background:#f2f8edb8;border-color:#d7e6cbd6}
-.hc-final-cta{background:#006233ed;backdrop-filter:blur(14px);box-shadow:0 -22px 70px #17472d1d}
-.hc-footer{box-sizing:border-box;margin-top:28px;padding-inline:26px;border:1px solid #ffffffca;border-bottom:0;border-radius:24px 24px 0 0;background:#ffffff7c;backdrop-filter:blur(18px);box-shadow:0 -12px 50px #31543a0d}
+.hc-bottom-zone{background:linear-gradient(180deg,#006233ed 0%,#00572df5 100%);box-shadow:0 -22px 70px #17472d1d;overflow:hidden}
+.hc-final-cta{background:transparent;backdrop-filter:blur(14px)}
+.hc-footer{box-sizing:border-box;margin-top:28px;padding-inline:26px;border:1px solid #ffffffca;border-bottom:0;border-radius:24px 24px 0 0;background:#f8fbf4eb;backdrop-filter:blur(18px);box-shadow:0 -12px 50px #18392324}
 @keyframes hc-ambient-sheen{0%,20%{transform:translateX(-75%)}70%,100%{transform:translateX(75%)}}
 @keyframes hc-orb-drift{0%{transform:translate3d(-3%,0,0) scale(.96)}100%{transform:translate3d(8%,-6%,0) scale(1.08)}}
 @keyframes hc-route-flow{to{stroke-dashoffset:-340}}
@@ -223,3 +224,8 @@
 .hc-membership{margin-top:88px;margin-bottom:100px}
 .hc-footer{margin-top:38px}
 @media(max-width:600px){.hc-product{margin-top:52px}.hc-question-section{padding-block:62px}.hc-services{margin-top:12px}.hc-membership{margin-top:62px;margin-bottom:66px}}
+
+/* Keep every feature selector visibly outlined on light production backgrounds. */
+.hc-feature-tabs button{border-color:#dbe4da;background:rgba(255,255,255,.78);box-shadow:0 1px 0 rgba(26,72,43,.03);transition:color .2s,background .2s,border-color .2s,box-shadow .2s}
+.hc-feature-tabs button[aria-selected=true]{border-color:#b8d0ae;box-shadow:0 0 0 1px rgba(0,98,51,.04)}
+.hc-feature-tabs button:hover{background:#f7faf5;border-color:#bdceba}
