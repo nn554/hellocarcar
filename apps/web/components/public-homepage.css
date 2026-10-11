@@ -192,8 +192,13 @@
 @media(max-width:600px){.hc-language select{min-width:78px}.hc-home[dir=rtl] .hc-cta-art{left:-80px;right:auto}}
 
 /* Keep decorative content out of the demo surface and hold the seven tabs in a 5 + 2 rhythm. */
+.hc-meteor-lane{position:relative;height:118px;margin-top:14px;overflow:hidden;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 11%,#000 89%,transparent)}
 @media(min-width:601px){
-  .hc-floating-note{position:relative;right:auto;bottom:auto;width:fit-content;max-width:min(520px,calc(100% - 104px));margin:24px 52px 0 auto;transform:rotate(-2deg)}
+  .hc-floating-note{position:absolute;z-index:2;left:50%;right:auto;top:18px;bottom:auto;width:max-content;max-width:min(520px,calc(100% - 104px));margin:0;transform:translate3d(calc(54vw + 520px),-12px,0) rotate(-4deg);will-change:transform,opacity;animation:hc-meteor-card-flight 14s linear infinite}
+  .hc-floating-note::before{content:"";position:absolute;z-index:-1;left:calc(100% - 10px);top:51%;width:min(34vw,390px);height:2px;background:linear-gradient(90deg,#08754590 0,#5eaa7960 23%,#a5d2b12c 62%,transparent 100%);box-shadow:0 -9px 0 -0.5px #5d9f7560,0 9px 0 -0.5px #91c5a143;transform:translateY(-50%) skewX(-20deg);filter:drop-shadow(0 0 7px #4e9a6c66)}
+  .hc-floating-note::after{content:"";position:absolute;z-index:-1;left:calc(100% + min(17vw,190px));top:50%;width:9px;height:9px;border:1.5px solid #087545;border-radius:50%;box-shadow:46px -14px 0 -3px #087545,88px 11px 0 -2px #78b38e;animation:hc-meteor-sparkle 2.4s ease-in-out infinite}
+  .hc-floating-note>span:first-child{animation:hc-meteor-core-pulse 1.9s ease-in-out infinite}
+  .hc-note-line{animation:hc-meteor-streak 1.4s ease-in-out infinite}
 }
 @media(min-width:851px){
   .hc-feature-tabs{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));width:min(1040px,calc(100% - 48px));margin:35px auto 55px;gap:14px}
@@ -206,4 +211,10 @@
   .hc-feature-tabs button{flex:0 0 auto;white-space:nowrap}
 }
 .hc-home[dir=rtl] .hc-demo-sidebar nav button,.hc-home[dir=rtl] .hc-demo-history>button{direction:rtl;text-align:right}
-.hc-home[dir=rtl] .hc-floating-note{right:auto;left:auto;margin:24px auto 0 52px;transform:rotate(2deg)}
+.hc-home[dir=rtl] .hc-floating-note{right:auto;left:50%;margin:0}
+@keyframes hc-meteor-card-flight{0%,8%{opacity:0;transform:translate3d(calc(54vw + 520px),-12px,0) rotate(-4deg)}14%{opacity:1}82%{opacity:1}92%,100%{opacity:0;transform:translate3d(calc(-76vw - 520px),24px,0) rotate(-1deg)}}
+@keyframes hc-meteor-core-pulse{0%,100%{box-shadow:0 0 0 0 #70b98a22;transform:scale(.96)}50%{box-shadow:0 0 0 9px #70b98a20,0 0 22px #08754536;transform:scale(1.06)}}
+@keyframes hc-meteor-streak{0%,100%{opacity:.38;transform:skewY(-12deg) translateX(0)}50%{opacity:1;transform:skewY(-12deg) translateX(6px)}}
+@keyframes hc-meteor-sparkle{0%,100%{opacity:.25;transform:translateY(-50%) scale(.72)}50%{opacity:.9;transform:translateY(-50%) scale(1.08)}}
+@media(max-width:600px){.hc-meteor-lane{display:none}}
+@media(prefers-reduced-motion:reduce){.hc-floating-note{left:50%;opacity:1;animation:none;transform:translateX(-50%) rotate(-2deg)}.hc-floating-note>span:first-child,.hc-note-line,.hc-floating-note::after{animation:none}}
