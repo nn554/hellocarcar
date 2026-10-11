@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hellocarcar · Green UI</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#e9eeeb;color:#202824;font:14px Arial,"Microsoft YaHei",sans-serif;letter-spacing:0}header{min-height:64px;padding:12px 24px;background:white;border-bottom:1px solid #dce4df;display:flex;gap:24px;align-items:center;flex-wrap:wrap}strong{font-size:18px;color:#006233}nav{display:flex;gap:4px;flex-wrap:wrap}button{font:inherit;cursor:pointer;border:0;border-radius:5px;background:none;padding:9px 12px;color:#69736e}button[aria-pressed=true]{color:#006233;background:#e9f4ec;font-weight:700}main{padding:24px;max-width:1600px;margin:auto}img{display:block;width:100%;height:auto;background:white;box-shadow:0 5px 24px #143c3210}.mobile{max-width:390px;margin:auto}footer{padding:8px 24px 28px;text-align:center;color:#69736e;font-size:12px}a{color:#006233}@media(max-width:600px){header{padding:14px;gap:12px}main{padding:12px}button{padding:8px;font-size:12px}}
+</style></head>
+<body><header><strong>Hellocarcar</strong><nav aria-label="Design screens"></nav></header><main><img id="screen" src="01-ai-workspace.svg" alt="AI 工作台绿色 UI 设计"></main><footer><a id="download" href="01-ai-workspace.svg" download>下载当前 SVG</a> · <a href="design-spec.md">设计说明与参考来源</a></footer>
+<script>
+const screens=[['01-ai-workspace','AI 首页'],['02-conversation','对话'],['03-vehicle-quotations','车辆报价'],['04-shipping-quotations','海运查询'],['05-reports','报告'],['06-subscription','会员'],['07-account','账户'],['08-notifications','通知'],['09-mobile','移动端'],['10-foundations','设计规范'],['11-public-home','官网首页'],['12-public-home-mobile','手机官网']];
+const nav=document.querySelector('nav'),img=document.querySelector('#screen'),dl=document.querySelector('#download');
+function show(i){const [file,label]=screens[i];img.src=file+'.svg';img.alt=label+'绿色 UI 设计';img.className=file.includes('mobile')?'mobile':'';dl.href=file+'.svg';nav.querySelectorAll('button').forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));history.replaceState(null,'','#'+file);}
+screens.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s[1];b.addEventListener('click',()=>show(i));nav.append(b)});const idx=screens.findIndex(s=>s[0]===location.hash.slice(1));show(idx<0?0:idx);
+</script></body></html>

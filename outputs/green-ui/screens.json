@@ -1,0 +1,52 @@
+[
+  {
+    "name": "01-ai-workspace",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "02-conversation",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "03-vehicle-quotations",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "04-shipping-quotations",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "05-reports",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "06-subscription",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "07-account",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "08-notifications",
+    "width": 1440,
+    "height": 960
+  },
+  {
+    "name": "09-mobile",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "name": "10-foundations",
+    "width": 1440,
+    "height": 960
+  }
+]

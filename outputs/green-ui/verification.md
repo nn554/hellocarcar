@@ -1,0 +1,24 @@
+# Verification
+
+- Footer correction: reconnected to the existing Figma tab and changed only the desktop footer from 820 to 360 px. Restored the preceding four 820 px sections in local exports after an abandoned over-broad compression attempt. Preserved the purchase-step design. Used Resize to fit after shortening the background, avoiding child scaling. Reloaded Figma and read back homepage height 3720 and footer X=0, Y=3360, H=360. Footer links and notice remain visible.
+
+- 2026-09-08 homepage addition: generated and visually inspected 1440 x 2390 desktop and 390 x 3290 mobile PNGs. Imported two new editable Figma frames at X=4680 and X=6280, both Y=0. Browser screenshots confirm the embedded automobile-loading photograph renders on both boards. Existing ten workspace boards were not replaced.
+- Reloaded Figma after import and confirmed both new named frames and all ten prior frames persisted. Mobile position X=6280, Y=0 and 390 x 3290 dimensions were read back. Both SVGs parse as XML and contain one embedded photo each, with 90 desktop and 83 mobile text nodes.
+- 2026-09-08 viewport revision: rebuilt desktop homepage as 1440 x 4180 with five 820 px sections below the 80 px header, including a preserved purchase-step section based on the supplied screenshot. Purchase card retains original two-column layout, five-step navigation, right-side vehicle image, notice and previous/next pager; only accent colors are green. Replaced the old desktop frame in place and confirmed final X=4680, Y=0, W=1440, H=4180 in Figma.
+- Preserved the screenshot's query sign-in requirement, supplier lookup Coming later state, five service areas, five-stage navigation, first-stage instructions, responsibility notice, footer policy links and unavailable payment/delivery notice. Remaining stage content and mobile menu behavior are specified in homepage-handoff.md for implementation; this remains a design-only deliverable.
+
+- 2026-09-07 color revision: updated all ten existing Figma frames in place and regenerated all SVG/PNG exports with main green #006233. Updated both foundation hex labels and the local viewer colors. No board replacement or layout change was needed.
+- Reloaded the edited Figma tab and verified the ten frames persisted; inspected the revised AI Workspace, Mobile and Design Foundations in the browser. The foundation swatches and labels show the revised green.
+- Calculated WCAG contrast ratios: white on #006233 is 7.51:1; sidebar secondary text #C8E6D3 is 5.62:1; navigation text #E3F1E8 is 6.45:1; white on active green #177447 is 5.79:1. These combinations meet AA for normal text.
+
+- Ten SVG documents parsed successfully as XML: nine 1440 x 960 desktop/foundation boards and one 390 x 844 mobile board.
+- All ten matching PNGs were opened and visually inspected. Reviewed page boundaries, typography, green/neutral/amber palette, Lucide icons, control alignment, price alignment, form spacing and mobile line breaks.
+- Fixed missing active-navigation highlights on Account and Subscription, regenerated assets, and replaced only those two newly created Figma frames.
+- Imported all ten designs into the user's existing Figma file as separate named frames. Native text rows and vector groups were observed in the layer panel.
+- Reloaded the Figma file and verified all ten named frames persisted. Verified Account position at X=0, Y=2160 after reload. File title is Hellocarcar - Green Workspace UI.
+- Compared Figma browser screenshots for AI Workspace, Vehicle Quotations, Reports and Mobile with the exported PNG designs. No major clipping or placement mismatch observed at the browser's available viewport. Full-size PNG exports were inspected separately.
+- Reference screens visited: Flexport product dashboard, Freightos public search, and Carwow vehicle finder. Perplexity loaded blank and is not treated as verified research.
+- Content changes are intentional layout/design editing: shortened page introductions, grouped service navigation, compact empty states, neutral account display name, condensed subscription benefits and shorter chat formatting. Prices and search fields are preserved from the user's screenshot. The three displayed vehicle rows are samples from that supplied screenshot, not a new live data pull.
+- The HTML file is a static design viewer. The in-app browser URL policy blocked opening the local file URL; no alternate route was used to bypass that block. Browser testing of this viewer is not claimed.
+- No production functionality was modified or tested. These are editable visual designs, not working forms or a deployed application. SVG import preserves text/vectors but does not establish Auto Layout, shared Figma components, native variables or clickable prototype wiring.
+- Built-in Image Gen and direct Figma MCP writing tools were not exposed in this session. Deterministic SVG design and the user's logged-in Figma browser editor were used for delivery.

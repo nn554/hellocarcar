@@ -1,0 +1,206 @@
+{
+  "marketCode": "DZ",
+  "route": "China to Algeria",
+  "vehicleScope": "Passenger vehicles",
+  "language": "zh-CN",
+  "status": "DRAFT",
+  "observedAt": "2026-09-02T00:00:00.000Z",
+  "disclaimer": "本资料是面向阿尔及利亚进口人和中国出口协作方的通俗政策草稿，不构成法律、税务或报关意见。发布前须由阿尔及利亚持牌报关行、税务顾问或主管机关复核。",
+  "evidence": [
+    {
+      "sourceRef": "JORADP:F2023011:DE-23-74",
+      "title": "JORADP No. 11 (2023) - Decret executif no 23-74",
+      "kind": "OFFICIAL_GAZETTE",
+      "sourceUrl": "https://www.joradp.dz/FTP/jo-francais/2023/F2023011.pdf",
+      "localPath": "outputs/policy-content/dz/evidence/JORADP-F2023011.pdf",
+      "contentHash": "e8ec57e1d0d61526f7cc9ca7d5afa06715455914f43989181f8aa55f5969609a",
+      "originalLanguage": "fr",
+      "publishedAt": "2023-02-22T00:00:00.000Z",
+      "legalDate": "2023-02-20",
+      "legalReferences": ["Decret executif no 23-74", "Articles 1-14", "PDF pages 6-7"]
+    },
+    {
+      "sourceRef": "JORADP:F2022076:DE-22-383",
+      "title": "JORADP No. 76 (2022) - Decret executif no 22-383",
+      "kind": "OFFICIAL_GAZETTE",
+      "sourceUrl": "https://www.joradp.dz/FTP/jo-francais/2022/F2022076.pdf",
+      "localPath": "outputs/policy-content/dz/evidence/JORADP-F2022076.pdf",
+      "contentHash": "7b3d8eea60fb3e618985ef337389bd3c9e9d540f47cf3053f7c60711a6068b3b",
+      "originalLanguage": "fr",
+      "publishedAt": "2022-11-17T00:00:00.000Z",
+      "legalDate": "2022-11-17",
+      "legalReferences": ["Decret executif no 22-383", "Articles 1-35", "Annexe I", "PDF pages 4-30"]
+    },
+    {
+      "sourceRef": "DZ-COMMERCE:REGULATION:22-383",
+      "title": "Ministry of Commerce publication for Decret executif no 22-383",
+      "kind": "OFFICIAL_POLICY_PAGE",
+      "sourceUrl": "https://www.commerce.gov.dz/fr/reglementation/decret-executif-n-deg-22-383-jo-n-deg-76-du-17-novembre-2022",
+      "localPath": "outputs/policy-content/dz/evidence/commerce-decree-22-383.html",
+      "contentHash": "1a0d73bb41e519f59c34dbace3aa3ce804e222cdbcc5aec8dd9007b3f13c3135",
+      "originalLanguage": "fr",
+      "publishedAt": "2022-12-17T00:00:00.000Z",
+      "legalDate": "2022-11-17",
+      "legalReferences": ["Decret executif no 22-383"]
+    },
+    {
+      "sourceRef": "DZ-COMMERCE:FAQ:IMPORT-LICENCES:2026-09-02",
+      "title": "Ministry of Commerce FAQ - Import licences",
+      "kind": "OFFICIAL_GUIDANCE",
+      "sourceUrl": "https://www.commerce.gov.dz/fr/questions-frequentes/themes/licences-d-importation",
+      "localPath": "outputs/policy-content/dz/evidence/commerce-import-licences.html",
+      "contentHash": "f4c913c9653a086b1089cb3cd3f24a232d1fb99ebd201f15fe3897cf04c8f611",
+      "originalLanguage": "fr",
+      "publishedAt": null,
+      "legalDate": null,
+      "legalReferences": ["Official import licence FAQ, observed 2026-09-02"]
+    },
+    {
+      "sourceRef": "DZ-DGI:TVA:2026-02-23",
+      "title": "Direction Generale des Impots - La taxe sur la valeur ajoutee",
+      "kind": "OFFICIAL_TAX_GUIDANCE",
+      "sourceUrl": "https://www.mfdgi.gov.dz/fr/professionnels/services-pro/regime-reel/la-taxe-sur-la-valeur-ajoutee",
+      "localPath": "outputs/policy-content/dz/evidence/dgi-tva-2026.html",
+      "contentHash": "c12dc6f40b3d4e8b543c22835cdcf8f25d0e6a8da30b13a5e65c6062ea803e5b",
+      "originalLanguage": "fr",
+      "publishedAt": "2026-02-23T00:00:00.000Z",
+      "legalDate": null,
+      "legalReferences": ["Code des TCA", "Official page updated 2026-02-23"]
+    }
+  ],
+  "policies": [
+    {
+      "slug": "import-eligibility",
+      "category": "进口资格",
+      "title": "阿尔及利亚乘用车进口资格：个人二手车与新车经销商是两条不同通道",
+      "summary": "阿尔及利亚居民个人可按23-74号法令进口自用、车龄不超过三年的特定二手乘用车，每三年一次；以转售为目的的新车进口则要求阿尔及利亚注册商业公司取得工业主管部门许可和批准，并满足商务主管部门对转售进口活动的要求。",
+      "plainExplanation": "先判断谁是阿尔及利亚进口人。居民个人通道只适用于自用二手车，不能当作商业批量进口通道。新车商业进口应由获批的阿尔及利亚经销商操作，中国出口方主要提供原厂合同链、发票、车型和技术资料。独立贸易商不能仅凭普通买卖合同替代当地经销商批准。",
+      "steps": [
+        "确认车辆是新车还是三年以内二手车，并确认用途是个人自用还是商业转售。",
+        "个人二手车通道：核验进口人是阿尔及利亚居民，且过去三年未使用同一资格。",
+        "新车经销通道：核验阿尔及利亚买方是当地依法设立的商业公司，持有工业主管部门批准及商务主管部门要求的相关证明。",
+        "核验车型、动力类型、品牌和型号都在进口人的批准范围内。",
+        "签约前由阿尔及利亚主管机关或持牌专业人士确认当前批准、配额、许可证和银行要求。"
+      ],
+      "requiredDocuments": [
+        "个人二手车：阿尔及利亚身份证件或外国人居留证、居住证明。",
+        "个人二手车：境外登记证或等效文件、所有权转移文件、购车发票和/或买卖合同。",
+        "新车经销商：工业主管部门的预先许可和正式批准文件。",
+        "新车经销商：与单一制造商签署、期限至少五年的独家经销合同或协议。",
+        "新车经销商：电子商业登记、税号、完税/税务状态、社保和人员资质、展销仓储及售后设施证明。"
+      ],
+      "feesNote": "本条不提供税额。资格获批不等于免税，也不等于某一批次车辆自动获准进口。",
+      "effectiveAt": "2023-02-22T00:00:00.000Z",
+      "sourceUrl": "https://www.joradp.dz/FTP/jo-francais/2023/F2023011.pdf",
+      "evidenceSourceRefs": ["JORADP:F2023011:DE-23-74", "JORADP:F2022076:DE-22-383", "DZ-COMMERCE:FAQ:IMPORT-LICENCES:2026-09-02"]
+    },
+    {
+      "slug": "taxes-and-fees",
+      "category": "税费",
+      "title": "阿尔及利亚进口乘用车税费怎么估算：先定HS编码，再算关税和增值税",
+      "summary": "23-74号法令明确个人二手车清关须缴纳现行法律要求的税费；阿尔及利亚税务总局页面说明增值税一般税率为19%、优惠税率为9%，进口环节在货物进入海关时产生纳税义务，计税基础通常包括货价、相关费用及除增值税外的税费。具体车辆是否适用某一税率或减免，必须按现行税则和车辆参数确认。",
+      "plainExplanation": "不要只拿采购价乘一个固定比例。实际税费会受到HS编码、车辆新旧、动力类型、排量、原产地、海关估价和当期优惠政策影响。19%是税务总局公布的一般增值税税率，不代表每辆车的全部进口综合税率，也不能替代海关税则查询。",
+      "steps": [
+        "准备VIN、品牌型号、动力类型、排量、制造年份、首次登记日期、原产地和成交价格。",
+        "由阿尔及利亚持牌报关行确认HS编码及申报价格基础。",
+        "在现行海关税则中确认关税、可能的附加税费及是否存在减免。",
+        "按税务总局现行规则确认增值税税率和计税基础。",
+        "把港杂费、仓储、滞箱、检验、报关代理和内陆运输另列，不与政府税费混为一项。",
+        "装船前取得书面税费测算，申报前再次复核。"
+      ],
+      "requiredDocuments": [
+        "商业发票或购车发票/买卖合同。",
+        "提单、装箱单及运费和保险费资料。",
+        "车辆技术参数、VIN、动力类型、排量、制造与登记日期。",
+        "原产地证明及可能支持优惠待遇的文件。",
+        "报关行出具的HS归类与税费测算表。"
+      ],
+      "feesNote": "可用于内部预算的结构是：海关审定完税价格 + 关税及其他法定税费 + 增值税 + 港口/检验/代理/仓储等服务费。当前已核实的一般增值税率为19%，优惠税率为9%，但本草稿不认定乘用车必然适用其中任何一个税率，也不提供未经实时税则核验的关税率。",
+      "effectiveAt": "2026-02-23T00:00:00.000Z",
+      "sourceUrl": "https://www.mfdgi.gov.dz/fr/professionnels/services-pro/regime-reel/la-taxe-sur-la-valeur-ajoutee",
+      "evidenceSourceRefs": ["DZ-DGI:TVA:2026-02-23", "JORADP:F2023011:DE-23-74"]
+    },
+    {
+      "slug": "vehicle-conformity",
+      "category": "合规与认证",
+      "title": "阿尔及利亚乘用车合规与认证：车辆到港前必须准备什么",
+      "summary": "新车须在清关放行前于港区、临时堆场或海关监管仓库接受车辆合规控制；经销商只能进口批准品牌和型号，并须提供制造商技术说明及安全、环保测试资料。个人二手车须保持良好运行状态、无重大或严重缺陷，并取得矿业主管部门认可专家出具的合规鉴定报告。",
+      "plainExplanation": "车辆能在中国出口，不代表一定能在阿尔及利亚上牌。新车要核对当地经销商批准的品牌/型号、动力类型、安全配置和排放资料；二手车要重点核对车龄、车况和当地认可专家报告。若二手车被判不合规，法令规定可能由进口人承担费用重新出口。",
+      "steps": [
+        "在订车前将车型技术参数与阿尔及利亚经销商的批准范围逐项比对。",
+        "由制造商准备车型说明、安全测试和环保测试文件，并确认出具机构资格。",
+        "核查动力类型和最低安全配置，尤其是ABS、安全气囊、安全带、儿童座椅固定装置等。",
+        "每批新车到港时向当地矿业主管服务机构提交到货和制造商单据。",
+        "个人二手车在清关前取得当地认可专家的合规鉴定报告。",
+        "发现关键不合规项时先暂停清关和交付，由当地专家决定整改、退运或其他法定处理。"
+      ],
+      "requiredDocuments": [
+        "新车：制造商签章的车型说明书三份。",
+        "新车：主动安全、被动安全和环境保护测试报告。",
+        "新车：每批装箱单、提单、到货通知、制造商或其关联实体开具的采购发票。",
+        "新车：相关车辆接收/批准记录副本。",
+        "二手车：由登记国有资质机构在三个月内出具的良好运行状态证明。",
+        "二手车：阿尔及利亚矿业主管部门认可专家出具的合规鉴定报告。"
+      ],
+      "feesNote": "检测、鉴定、整改、仓储和退运费用未在本草稿中定价，须向当地认可机构、港口和承运人询价。",
+      "effectiveAt": "2022-11-17T00:00:00.000Z",
+      "sourceUrl": "https://www.joradp.dz/FTP/jo-francais/2022/F2022076.pdf",
+      "evidenceSourceRefs": ["JORADP:F2022076:DE-22-383", "JORADP:F2023011:DE-23-74"]
+    },
+    {
+      "slug": "customs-documents",
+      "category": "清关文件",
+      "title": "阿尔及利亚乘用车清关文件清单：新车批量进口与个人二手车分开准备",
+      "summary": "个人二手车的23-74号法令列明身份、居住、境外登记、所有权转移、车况和合规鉴定文件；新车经销商法规列明每批合规控制所需的装箱单、提单、到货通知、制造商发票及接收记录。上述清单不是对所有海关申报和银行文件的穷尽列举。",
+      "plainExplanation": "最容易出错的是把两条通道的文件混用。个人二手车要证明进口人资格、车辆所有权、三年车龄和车况；新车商业批次要证明经销商批准、原厂供货链、到货批次和车型合规。中国出口方应先把VIN、发票、装箱单、提单和技术资料做一致性检查。",
+      "steps": [
+        "确定通道并建立一车一档或一批一档文件夹。",
+        "逐项核对发票、装箱单、提单、VIN、品牌型号、数量、重量和收发货人信息。",
+        "个人二手车补齐身份、居住、境外登记、所有权转移、三个月内车况证明和当地专家报告。",
+        "新车批次补齐经销商批准、制造商发票、到货通知、车型技术资料和接收记录。",
+        "让当地报关行补充核对海关申报、银行付款、保险、原产地及港口要求。",
+        "在装船和申报前各做一次版本冻结，避免单据改动后互相不一致。"
+      ],
+      "requiredDocuments": [
+        "个人二手车：身份证件/居留证、居住证明。",
+        "个人二手车：境外登记证或等效文件、购车发票和/或买卖合同。",
+        "个人二手车：三个月内车况证明、当地认可专家合规报告。",
+        "新车批次：装箱单、提单、到货通知、制造商或关联实体发票。",
+        "新车批次：车型接收/批准记录和完整技术合规资料。",
+        "待当地确认：海关申报单、原产地证、保险单、银行文件、授权委托书及具体港口补充单据。"
+      ],
+      "feesNote": "文件翻译、公证、认证、检验和报关代理费用需逐票确认；本清单不能替代当地报关行的最终报关清单。",
+      "effectiveAt": "2023-02-22T00:00:00.000Z",
+      "sourceUrl": "https://www.joradp.dz/FTP/jo-francais/2023/F2023011.pdf",
+      "evidenceSourceRefs": ["JORADP:F2023011:DE-23-74", "JORADP:F2022076:DE-22-383"]
+    },
+    {
+      "slug": "port-and-shipping-process",
+      "category": "港口与运输流程",
+      "title": "中国发运至阿尔及利亚后的到港与清关流程",
+      "summary": "新车到达后应先在港区、临时堆场或海关监管仓库完成合规控制，再办理进口消费清关；经销商须具备获海关批准的私人仓库或与公共海关监管仓库经营方签约。个人二手车可凭有效期一个月且不可延期的海关通行文件临时进入，并向入境地或居住地辖区海关提交清关档案。",
+      "plainExplanation": "海运订舱只是运输开始，不是进口完成。到港后通常还要经历到货通知、换单/提货文件、合规检查、海关申报、缴税和放行。港杂、堆存和滞箱按港口、码头和船公司规则发生，因此资料延误会直接增加成本。",
+      "steps": [
+        "装船前：确认阿尔及利亚进口人资格、批准车型、目的港代理和最终单据清单。",
+        "发运阶段：锁定VIN和单据版本，跟踪提单、预计到港时间及到货通知。",
+        "到港阶段：由进口人/代理办理换单和监管场所衔接；新车进入港区、临时堆场或海关监管仓库。",
+        "合规阶段：在消费清关前完成车辆合规控制并提交法规列明的到货与技术文件。",
+        "申报阶段：报关行提交海关申报、海关估价和税费计算，进口人缴纳法定税费。",
+        "放行阶段：取得放行后安排提车、内陆运输和后续登记；核对车辆、钥匙、随车文件及损伤记录。",
+        "个人二手车：关注一个月不可延期的临时海关通行期限，并在入境海关或居住地辖区海关及时提交档案。"
+      ],
+      "requiredDocuments": [
+        "提单、装箱单、商业/购车发票、到货通知。",
+        "VIN清单、车辆技术和合规文件。",
+        "进口人资格、经销商批准或个人居民证明。",
+        "海关监管仓库证明或与公共监管仓库的有效协议（新车经销商）。",
+        "报关行确认的申报、税费、换单和港口文件。",
+        "交车检查表、照片和异常/损伤记录。"
+      ],
+      "feesNote": "海运费、目的港操作费、换单费、堆存费、滞箱费、检验费、报关代理费和内陆运输费属于不同收费主体。具体免费期和费率必须向船公司、码头、港口代理和报关行逐票确认。",
+      "effectiveAt": "2022-11-17T00:00:00.000Z",
+      "sourceUrl": "https://www.joradp.dz/FTP/jo-francais/2022/F2022076.pdf",
+      "evidenceSourceRefs": ["JORADP:F2022076:DE-22-383", "JORADP:F2023011:DE-23-74"]
+    }
+  ]
+}

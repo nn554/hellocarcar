@@ -1,0 +1,1015 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MarketStatus {
+  PLANNED
+  ACTIVE
+  PAUSED
+}
+
+enum LocaleDirection {
+  LTR
+  RTL
+}
+
+enum UserRole {
+  BUYER
+  ANALYST
+  FINANCE
+  CUSTOMER_SERVICE
+  REVIEWER
+  ADMIN
+}
+
+enum ConversationChannel {
+  WEB
+  TELEGRAM
+}
+
+enum NotificationChannel {
+  TELEGRAM
+  EMAIL
+  ADMIN
+}
+
+enum NotificationStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+}
+
+enum ReviewState {
+  DRAFT
+  PENDING_REVIEW
+  VERIFIED
+  REJECTED
+  EXPIRED
+  NEEDS_LOCAL_CONFIRMATION
+}
+
+enum EvidenceScope {
+  GLOBAL
+  MARKET
+}
+
+enum SubscriptionStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum EntitlementKind {
+  FREE_DECISION
+  FREE_REPORT_PREVIEW
+  VIP_FULL_REPORT
+}
+
+enum DecisionStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  HUMAN_REVIEW_REQUIRED
+  FAILED
+}
+
+enum ReportStatus {
+  DRAFT
+  PREVIEW_GENERATING
+  PREVIEW_PENDING_REVIEW
+  PREVIEW_READY
+  VIP_REQUIRED
+  FULL_GENERATING
+  FULL_PENDING_REVIEW
+  REPORT_READY
+  GENERATION_FAILED
+  CANCELLED
+}
+
+enum ReportType {
+  STANDARD
+  EXPERT
+}
+
+enum PaymentStatus {
+  AWAITING_PAYMENT
+  PENDING_REVIEW
+  PAID
+  REJECTED
+  REFUNDED
+}
+
+enum PlanInterval {
+  MONTHLY
+  ANNUAL
+}
+
+enum PaymentOrderStatus {
+  AWAITING_PAYMENT
+  PROOF_SUBMITTED
+  UNDER_REVIEW
+  NEEDS_SUPPLEMENT
+  PAID
+  REJECTED
+  CANCELLED
+  EXPIRED
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+enum StatementImportStatus {
+  DRAFT
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum StatementMatchStatus {
+  UNMATCHED
+  MATCHED
+  AMBIGUOUS
+  IGNORED
+}
+
+enum RefundStatus {
+  REQUESTED
+  APPROVED
+  COMPLETED
+  REJECTED
+}
+
+enum SyncStatus {
+  RUNNING
+  SUCCEEDED
+  PARTIAL
+  FAILED
+}
+
+enum SourceSystem {
+  MANUAL
+  FEISHU
+  NBS
+  PUBLIC_SOURCE
+}
+
+enum ReviewTaskType {
+  EVIDENCE
+  POLICY
+  POLICY_NEWS
+  PRICE_OBSERVATION
+  DECISION
+  REPORT
+  PAYMENT
+  SYNC_EXCEPTION
+}
+
+model Market {
+  id                   String                     @id @default(cuid())
+  code                 String                     @unique
+  name                 String
+  timezone             String
+  defaultCurrency      String
+  status               MarketStatus               @default(PLANNED)
+  locales              MarketLocale[]
+  subscriptionScopes   SubscriptionMarketScope[]
+  priceObservations    PriceObservation[]
+  supplierCapabilities SupplierMarketCapability[]
+  policies             CountryPolicy[]
+  policyNews           PolicyNewsItem[]
+  eligibilityRecords   VehicleMarketEligibility[]
+  content              MarketContent[]
+  evidence             Evidence[]
+  decisions            DecisionQuery[]
+  reports              ReportRequest[]
+  piOrders             PIOrder[]
+  syncRuns             SyncRun[]
+  rawSourceRecords     RawSourceRecord[]
+  reviewTasks          ReviewTask[]
+  paymentOrders        PaymentOrder[]
+  membershipScopes     MembershipMarketScope[]
+  createdAt            DateTime                   @default(now())
+  updatedAt            DateTime                   @updatedAt
+}
+
+model MarketLocale {
+  id        String          @id @default(cuid())
+  marketId  String
+  locale    String
+  label     String
+  direction LocaleDirection
+  isDefault Boolean         @default(false)
+  market    Market          @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@unique([marketId, locale])
+}
+
+model Organization {
+  id            String          @id @default(cuid())
+  name          String
+  memberships   Membership[]
+  subscriptions Subscription[]
+  reports       ReportRequest[]
+  piOrders      PIOrder[]
+  paymentOrders PaymentOrder[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model User {
+  id                     String                     @id @default(cuid())
+  email                  String                     @unique
+  displayName            String?
+  phone                  String?
+  whatsapp               String?
+  emailVerifiedAt        DateTime?
+  memberships            Membership[]
+  sessions               Session[]
+  telegramIdentity       TelegramIdentity?
+  accountLinkTokens      AccountLinkToken[]
+  conversationSessions   ConversationSession[]
+  notifications          Notification[]
+  decisions              DecisionQuery[]
+  reportRequests         ReportRequest[]            @relation("ReportRequester")
+  reportReviews          ReportReview[]
+  disclosures            SupplierDisclosure[]       @relation("DisclosureApprover")
+  paymentReviews         PaymentProof[]             @relation("PaymentReviewer")
+  paymentOrders          PaymentOrder[]             @relation("PaymentOrderCreator")
+  reviewedPaymentOrders  PaymentOrder[]             @relation("PaymentOrderReviewer")
+  submittedPaymentProofs PaymentProof[]             @relation("PaymentProofSubmitter")
+  createdExchangeRates   ExchangeRateSnapshot[]     @relation("ExchangeRateCreator")
+  statementImports       StatementImport[]          @relation("StatementImporter")
+  requestedRefunds       RefundRecord[]             @relation("RefundRequester")
+  approvedRefunds        RefundRecord[]             @relation("RefundApprover")
+  auditLogs              AuditLog[]
+  reviewedEvidence       Evidence[]                 @relation("EvidenceReviewer")
+  reviewedPrices         PriceObservation[]         @relation("PriceReviewer")
+  reviewedSuppliers      Supplier[]                 @relation("SupplierReviewer")
+  reviewedCapabilities   SupplierMarketCapability[] @relation("CapabilityReviewer")
+  reviewedPolicies       CountryPolicy[]            @relation("PolicyReviewer")
+  reviewedPolicyNews     PolicyNewsItem[]           @relation("PolicyNewsReviewer")
+  reviewedEligibility    VehicleMarketEligibility[] @relation("EligibilityReviewer")
+  assignedReviewTasks    ReviewTask[]               @relation("ReviewTaskAssignee")
+  completedReviewTasks   ReviewTask[]               @relation("ReviewTaskCompleter")
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+}
+
+model Membership {
+  id             String                  @id @default(cuid())
+  userId         String
+  organizationId String
+  role           UserRole                @default(BUYER)
+  user           User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization            @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  marketScopes   MembershipMarketScope[]
+  createdAt      DateTime                @default(now())
+
+  @@unique([userId, organizationId])
+}
+
+model MembershipMarketScope {
+  id           String     @id @default(cuid())
+  membershipId String
+  marketId     String
+  membership   Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  market       Market     @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@unique([membershipId, marketId])
+  @@index([marketId])
+}
+
+model OtpChallenge {
+  id         String    @id @default(cuid())
+  email      String
+  codeHash   String
+  expiresAt  DateTime
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  requestIp  String?
+  createdAt  DateTime  @default(now())
+
+  @@index([email, createdAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  userAgent String?
+  ipAddress String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model TelegramIdentity {
+  id             String                @id @default(cuid())
+  userId         String                @unique
+  telegramUserId String                @unique
+  username       String?
+  firstName      String?
+  lastName       String?
+  languageCode   String?
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversations  ConversationSession[]
+  linkedAt       DateTime              @default(now())
+  lastSeenAt     DateTime              @default(now())
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+}
+
+model AccountLinkToken {
+  id         String    @id @default(cuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  consumedAt DateTime?
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model ConversationSession {
+  id                     String              @id @default(cuid())
+  userId                 String?
+  telegramIdentityId     String?
+  channel                ConversationChannel
+  externalConversationId String
+  state                  String              @default("IDLE")
+  context                Json?
+  expiresAt              DateTime?
+  user                   User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  telegramIdentity       TelegramIdentity?   @relation(fields: [telegramIdentityId], references: [id], onDelete: Cascade)
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+
+  @@unique([channel, externalConversationId])
+  @@index([userId, updatedAt])
+}
+
+model Notification {
+  id           String              @id @default(cuid())
+  userId       String?
+  channel      NotificationChannel
+  type         String
+  recipient    String
+  payload      Json
+  dedupeKey    String              @unique
+  status       NotificationStatus  @default(PENDING)
+  attempts     Int                 @default(0)
+  scheduledAt  DateTime            @default(now())
+  processingAt DateTime?
+  sentAt       DateTime?
+  lastError    String?
+  user         User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@index([status, scheduledAt])
+  @@index([userId, createdAt])
+}
+
+model Subscription {
+  id              String                    @id @default(cuid())
+  organizationId  String
+  status          SubscriptionStatus        @default(PENDING_PAYMENT)
+  startsAt        DateTime?
+  endsAt          DateTime?
+  fullReportLimit Int                       @default(3)
+  organization    Organization              @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  marketScopes    SubscriptionMarketScope[]
+  paymentProofs   PaymentProof[]
+  paymentOrder    PaymentOrder?
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+}
+
+model SubscriptionMarketScope {
+  id             String       @id @default(cuid())
+  subscriptionId String
+  marketId       String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  market         Market       @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@unique([subscriptionId, marketId])
+}
+
+model EntitlementUsage {
+  id             String          @id @default(cuid())
+  organizationId String
+  marketId       String
+  kind           EntitlementKind
+  resourceId     String?
+  periodKey      String
+  createdAt      DateTime        @default(now())
+
+  @@index([organizationId, marketId, kind, periodKey])
+}
+
+model VehicleModel {
+  id                 String                     @id @default(cuid())
+  make               String
+  name               String
+  bodyType           String
+  energyType         String
+  seats              Int?
+  modelYear          Int?
+  aliases            VehicleAlias[]
+  priceObservations  PriceObservation[]
+  eligibilityRecords VehicleMarketEligibility[]
+  decisions          DecisionQuery[]
+  reports            ReportRequest[]
+  vinVehicles        VINVehicle[]
+  createdAt          DateTime                   @default(now())
+  updatedAt          DateTime                   @updatedAt
+
+  @@unique([make, name, modelYear])
+}
+
+model VehicleAlias {
+  id             String       @id @default(cuid())
+  vehicleModelId String
+  alias          String
+  locale         String?
+  vehicleModel   VehicleModel @relation(fields: [vehicleModelId], references: [id], onDelete: Cascade)
+
+  @@unique([vehicleModelId, alias])
+}
+
+model PriceObservation {
+  id             String         @id @default(cuid())
+  marketId       String
+  vehicleModelId String
+  amount         Decimal        @db.Decimal(14, 2)
+  currency       String
+  incoterm       String
+  observedAt     DateTime
+  validUntil     DateTime?
+  reviewState    ReviewState
+  sourceSystem   SourceSystem
+  sourceRef      String
+  reviewedById   String?
+  reviewedAt     DateTime?
+  market         Market         @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  vehicleModel   VehicleModel   @relation(fields: [vehicleModelId], references: [id], onDelete: Restrict)
+  reviewedBy     User?          @relation("PriceReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  evidenceLinks  EvidenceLink[]
+  createdAt      DateTime       @default(now())
+
+  @@unique([sourceSystem, sourceRef])
+  @@index([marketId, vehicleModelId, observedAt])
+}
+
+model Supplier {
+  id           String                     @id @default(cuid())
+  legalName    String
+  displayName  String
+  countryCode  String
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  reviewState  ReviewState
+  reviewedById String?
+  reviewedAt   DateTime?
+  reviewedBy   User?                      @relation("SupplierReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  capabilities SupplierMarketCapability[]
+  reports      ReportRequest[]
+  disclosures  SupplierDisclosure[]
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime                   @updatedAt
+}
+
+model SupplierMarketCapability {
+  id            String         @id @default(cuid())
+  supplierId    String
+  marketId      String
+  score         Int?
+  dimensions    Json?
+  routes        Json?
+  reviewState   ReviewState
+  reviewedById  String?
+  reviewedAt    DateTime?
+  supplier      Supplier       @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  market        Market         @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  reviewedBy    User?          @relation("CapabilityReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  evidenceLinks EvidenceLink[]
+
+  @@unique([supplierId, marketId])
+}
+
+model CountryPolicy {
+  id                String           @id @default(cuid())
+  marketId          String
+  category          String
+  title             String
+  summary           String
+  plainExplanation  String?
+  steps             Json?
+  requiredDocuments Json?
+  feesNote          String?
+  effectiveAt       DateTime
+  expiresAt         DateTime?
+  sourceUrl         String
+  reviewState       ReviewState
+  reviewedById      String?
+  reviewedAt        DateTime?
+  market            Market           @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  reviewedBy        User?            @relation("PolicyReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  evidenceLinks     EvidenceLink[]
+  newsItems         PolicyNewsItem[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([marketId, category, effectiveAt])
+}
+
+model PolicyNewsItem {
+  id               String         @id @default(cuid())
+  marketId         String
+  category         String
+  title            String
+  summary          String
+  impactSummary    String
+  originalLanguage String?
+  sourceUrl        String
+  sourceSystem     SourceSystem   @default(PUBLIC_SOURCE)
+  sourceRef        String
+  observedAt       DateTime
+  publishedAt      DateTime?
+  effectiveAt      DateTime?
+  reviewState      ReviewState
+  reviewedById     String?
+  reviewedAt       DateTime?
+  contentHash      String
+  relatedPolicyId  String?
+  market           Market         @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  relatedPolicy    CountryPolicy? @relation(fields: [relatedPolicyId], references: [id], onDelete: SetNull)
+  reviewedBy       User?          @relation("PolicyNewsReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  evidenceLinks    EvidenceLink[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([marketId, sourceRef, contentHash])
+  @@index([marketId, reviewState, observedAt])
+  @@index([marketId, publishedAt])
+}
+
+model VehicleMarketEligibility {
+  id             String         @id @default(cuid())
+  marketId       String
+  vehicleModelId String
+  eligible       Boolean?
+  restrictions   Json?
+  reviewState    ReviewState
+  reviewedById   String?
+  reviewedAt     DateTime?
+  market         Market         @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  vehicleModel   VehicleModel   @relation(fields: [vehicleModelId], references: [id], onDelete: Cascade)
+  reviewedBy     User?          @relation("EligibilityReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  evidenceLinks  EvidenceLink[]
+
+  @@unique([marketId, vehicleModelId])
+}
+
+model MarketContent {
+  id          String      @id @default(cuid())
+  marketId    String
+  locale      String
+  slug        String
+  title       String
+  body        String
+  reviewState ReviewState
+  market      Market      @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([marketId, locale, slug])
+}
+
+model Evidence {
+  id           String         @id @default(cuid())
+  marketId     String?
+  scope        EvidenceScope
+  kind         String
+  title        String
+  sourceSystem SourceSystem
+  sourceRef    String
+  sourceUrl    String?
+  observedAt   DateTime
+  validUntil   DateTime?
+  reviewState  ReviewState
+  reviewedById String?
+  reviewedAt   DateTime?
+  contentHash  String
+  metadata     Json?
+  market       Market?        @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  reviewedBy   User?          @relation("EvidenceReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  links        EvidenceLink[]
+  citations    Citation[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([sourceSystem, sourceRef, contentHash])
+  @@index([marketId, reviewState, observedAt])
+}
+
+model EvidenceLink {
+  id                         String                    @id @default(cuid())
+  evidenceId                 String
+  priceObservationId         String?
+  supplierMarketCapabilityId String?
+  countryPolicyId            String?
+  vehicleMarketEligibilityId String?
+  evidence                   Evidence                  @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  priceObservation           PriceObservation?         @relation(fields: [priceObservationId], references: [id], onDelete: Cascade)
+  supplierMarketCapability   SupplierMarketCapability? @relation(fields: [supplierMarketCapabilityId], references: [id], onDelete: Cascade)
+  countryPolicy              CountryPolicy?            @relation(fields: [countryPolicyId], references: [id], onDelete: Cascade)
+  policyNewsItem             PolicyNewsItem?           @relation(fields: [policyNewsItemId], references: [id], onDelete: Cascade)
+  policyNewsItemId           String?
+  vehicleMarketEligibility   VehicleMarketEligibility? @relation(fields: [vehicleMarketEligibilityId], references: [id], onDelete: Cascade)
+
+  @@index([evidenceId])
+}
+
+model DecisionQuery {
+  id             String         @id @default(cuid())
+  userId         String
+  marketId       String
+  vehicleModelId String?
+  locale         String
+  question       String
+  status         DecisionStatus @default(QUEUED)
+  answer         Json?
+  confidence     Float?
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market         Market         @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  vehicleModel   VehicleModel?  @relation(fields: [vehicleModelId], references: [id], onDelete: SetNull)
+  citations      Citation[]
+  createdAt      DateTime       @default(now())
+  completedAt    DateTime?
+
+  @@index([userId, marketId, createdAt])
+}
+
+model Citation {
+  id              String        @id @default(cuid())
+  decisionQueryId String
+  evidenceId      String
+  excerpt         String?
+  decisionQuery   DecisionQuery @relation(fields: [decisionQueryId], references: [id], onDelete: Cascade)
+  evidence        Evidence      @relation(fields: [evidenceId], references: [id], onDelete: Restrict)
+
+  @@unique([decisionQueryId, evidenceId])
+}
+
+model ReportRequest {
+  id             String               @id @default(cuid())
+  organizationId String
+  requesterId    String
+  marketId       String
+  vehicleModelId String?
+  supplierId     String?
+  locale         String
+  scope          String
+  reportType     ReportType           @default(STANDARD)
+  status         ReportStatus         @default(DRAFT)
+  isMasked       Boolean              @default(true)
+  organization   Organization         @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  requester      User                 @relation("ReportRequester", fields: [requesterId], references: [id], onDelete: Restrict)
+  market         Market               @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  vehicleModel   VehicleModel?        @relation(fields: [vehicleModelId], references: [id], onDelete: SetNull)
+  supplier       Supplier?            @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  versions       ReportVersion[]
+  reviews        ReportReview[]
+  disclosures    SupplierDisclosure[]
+  paymentProofs  PaymentProof[]
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  @@index([organizationId, marketId, createdAt])
+}
+
+model ReportVersion {
+  id               String        @id @default(cuid())
+  reportRequestId  String
+  version          Int
+  masked           Boolean
+  content          Json
+  evidenceSnapshot Json
+  pdfObjectKey     String?
+  reportRequest    ReportRequest @relation(fields: [reportRequestId], references: [id], onDelete: Cascade)
+  createdAt        DateTime      @default(now())
+
+  @@unique([reportRequestId, version])
+}
+
+model ReportReview {
+  id              String        @id @default(cuid())
+  reportRequestId String
+  reviewerId      String
+  state           ReviewState
+  notes           String?
+  reportRequest   ReportRequest @relation(fields: [reportRequestId], references: [id], onDelete: Cascade)
+  reviewer        User          @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+  createdAt       DateTime      @default(now())
+}
+
+model SupplierDisclosure {
+  id              String        @id @default(cuid())
+  reportRequestId String
+  supplierId      String
+  approvedById    String
+  expiresAt       DateTime?
+  reportRequest   ReportRequest @relation(fields: [reportRequestId], references: [id], onDelete: Cascade)
+  supplier        Supplier      @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  approvedBy      User          @relation("DisclosureApprover", fields: [approvedById], references: [id], onDelete: Restrict)
+  createdAt       DateTime      @default(now())
+
+  @@unique([reportRequestId, supplierId])
+}
+
+model PaymentProof {
+  id              String         @id @default(cuid())
+  reportRequestId String?
+  subscriptionId  String?
+  paymentOrderId  String?
+  provider        String
+  externalRef     String
+  amount          Decimal        @db.Decimal(14, 2)
+  currency        String
+  status          PaymentStatus  @default(AWAITING_PAYMENT)
+  objectKey       String?
+  originalName    String?
+  mimeType        String?
+  fileSize        Int?
+  fileHash        String?
+  submittedById   String?
+  submittedAt     DateTime?
+  userHiddenAt    DateTime?
+  reviewedById    String?
+  reportRequest   ReportRequest? @relation(fields: [reportRequestId], references: [id], onDelete: SetNull)
+  subscription    Subscription?  @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  paymentOrder    PaymentOrder?  @relation(fields: [paymentOrderId], references: [id], onDelete: SetNull)
+  submittedBy     User?          @relation("PaymentProofSubmitter", fields: [submittedById], references: [id], onDelete: SetNull)
+  reviewedBy      User?          @relation("PaymentReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  createdAt       DateTime       @default(now())
+  reviewedAt      DateTime?
+
+  @@unique([provider, externalRef])
+  @@index([paymentOrderId, createdAt])
+}
+
+model PaymentDestination {
+  id               String            @id @default(cuid())
+  label            String
+  bankName         String
+  beneficiaryName  String
+  accountNumber    String
+  swiftCode        String?
+  bankAddress      String?
+  currencies       String[]
+  instructions     String?
+  isActive         Boolean           @default(true)
+  paymentOrders    PaymentOrder[]
+  statementImports StatementImport[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model ExchangeRateSnapshot {
+  id            String         @id @default(cuid())
+  baseCurrency  String
+  quoteCurrency String
+  rate          Decimal        @db.Decimal(18, 8)
+  validFrom     DateTime
+  validUntil    DateTime
+  createdById   String
+  createdBy     User           @relation("ExchangeRateCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  paymentOrders PaymentOrder[]
+  createdAt     DateTime       @default(now())
+
+  @@index([baseCurrency, quoteCurrency, validUntil])
+}
+
+model PaymentOrder {
+  id               String                @id @default(cuid())
+  publicReference  String                @unique
+  organizationId   String
+  createdById      String
+  marketId         String
+  destinationId    String
+  exchangeRateId   String?
+  subscriptionId   String?               @unique
+  planCode         String
+  planInterval     PlanInterval
+  baseAmountUsd    Decimal               @db.Decimal(14, 2)
+  payableAmount    Decimal               @db.Decimal(14, 2)
+  currency         String
+  status           PaymentOrderStatus    @default(AWAITING_PAYMENT)
+  expiresAt        DateTime
+  paidAt           DateTime?
+  reviewedById     String?
+  reviewedAt       DateTime?
+  reviewReason     String?
+  organization     Organization          @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  createdBy        User                  @relation("PaymentOrderCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  reviewedBy       User?                 @relation("PaymentOrderReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  market           Market                @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  destination      PaymentDestination    @relation(fields: [destinationId], references: [id], onDelete: Restrict)
+  exchangeRate     ExchangeRateSnapshot? @relation(fields: [exchangeRateId], references: [id], onDelete: Restrict)
+  subscription     Subscription?         @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  proofs           PaymentProof[]
+  statementMatches StatementMatch[]
+  refunds          RefundRecord[]
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+
+  @@index([organizationId, createdAt])
+  @@index([status, expiresAt])
+}
+
+model StatementImport {
+  id            String                @id @default(cuid())
+  destinationId String
+  importedById  String
+  fileName      String
+  fileHash      String                @unique
+  objectKey     String?
+  status        StatementImportStatus @default(DRAFT)
+  totalRows     Int                   @default(0)
+  matchedRows   Int                   @default(0)
+  failedRows    Int                   @default(0)
+  errorMessage  String?
+  destination   PaymentDestination    @relation(fields: [destinationId], references: [id], onDelete: Restrict)
+  importedBy    User                  @relation("StatementImporter", fields: [importedById], references: [id], onDelete: Restrict)
+  matches       StatementMatch[]
+  createdAt     DateTime              @default(now())
+  completedAt   DateTime?
+
+  @@index([destinationId, createdAt])
+}
+
+model StatementMatch {
+  id                String               @id @default(cuid())
+  statementImportId String
+  paymentOrderId    String?
+  rowHash           String               @unique
+  bankReference     String?
+  payerName         String?
+  paymentReference  String?
+  amount            Decimal              @db.Decimal(14, 2)
+  currency          String
+  occurredAt        DateTime
+  status            StatementMatchStatus @default(UNMATCHED)
+  rawData           Json
+  statementImport   StatementImport      @relation(fields: [statementImportId], references: [id], onDelete: Cascade)
+  paymentOrder      PaymentOrder?        @relation(fields: [paymentOrderId], references: [id], onDelete: SetNull)
+  createdAt         DateTime             @default(now())
+
+  @@index([paymentOrderId, status])
+}
+
+model RefundRecord {
+  id             String       @id @default(cuid())
+  paymentOrderId String
+  requestedById  String
+  approvedById   String?
+  amount         Decimal      @db.Decimal(14, 2)
+  currency       String
+  status         RefundStatus @default(REQUESTED)
+  reason         String
+  bankReference  String?
+  completedAt    DateTime?
+  paymentOrder   PaymentOrder @relation(fields: [paymentOrderId], references: [id], onDelete: Restrict)
+  requestedBy    User         @relation("RefundRequester", fields: [requestedById], references: [id], onDelete: Restrict)
+  approvedBy     User?        @relation("RefundApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([paymentOrderId, status])
+}
+
+model PIOrder {
+  id             String       @id @default(cuid())
+  marketId       String
+  organizationId String
+  piNumber       String       @unique
+  status         String
+  sourceSystem   SourceSystem
+  sourceRef      String
+  market         Market       @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  vehicles       VINVehicle[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId, marketId])
+}
+
+model VINVehicle {
+  id              String           @id @default(cuid())
+  piOrderId       String
+  vehicleModelId  String?
+  vin             String           @unique
+  status          String
+  piOrder         PIOrder          @relation(fields: [piOrderId], references: [id], onDelete: Cascade)
+  vehicleModel    VehicleModel?    @relation(fields: [vehicleModelId], references: [id], onDelete: SetNull)
+  logisticsEvents LogisticsEvent[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model LogisticsEvent {
+  id           String       @id @default(cuid())
+  vinVehicleId String
+  code         String
+  label        String
+  occurredAt   DateTime?
+  expectedAt   DateTime?
+  sourceSystem SourceSystem
+  visibility   String
+  vinVehicle   VINVehicle   @relation(fields: [vinVehicleId], references: [id], onDelete: Cascade)
+  createdAt    DateTime     @default(now())
+
+  @@unique([vinVehicleId, code, occurredAt])
+}
+
+model SyncRun {
+  id            String            @id @default(cuid())
+  marketId      String?
+  sourceSystem  SourceSystem
+  cursor        String?
+  status        SyncStatus        @default(RUNNING)
+  pulledCount   Int               @default(0)
+  appliedCount  Int               @default(0)
+  rejectedCount Int               @default(0)
+  error         Json?
+  market        Market?           @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  rawRecords    RawSourceRecord[]
+  startedAt     DateTime          @default(now())
+  finishedAt    DateTime?
+}
+
+model RawSourceRecord {
+  id           String       @id @default(cuid())
+  syncRunId    String
+  marketId     String?
+  sourceSystem SourceSystem
+  sourceKey    String
+  payload      Json
+  contentHash  String
+  appliedAt    DateTime?
+  error        Json?
+  syncRun      SyncRun      @relation(fields: [syncRunId], references: [id], onDelete: Cascade)
+  market       Market?      @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  createdAt    DateTime     @default(now())
+
+  @@unique([sourceSystem, sourceKey, contentHash])
+}
+
+model ReviewTask {
+  id            String         @id @default(cuid())
+  marketId      String?
+  type          ReviewTaskType
+  entityType    String
+  entityId      String
+  reason        String
+  dedupeKey     String?        @unique
+  status        String         @default("OPEN")
+  assignedToId  String?
+  completedById String?
+  resolution    String?
+  market        Market?        @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  assignedTo    User?          @relation("ReviewTaskAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  completedBy   User?          @relation("ReviewTaskCompleter", fields: [completedById], references: [id], onDelete: SetNull)
+  createdAt     DateTime       @default(now())
+  completedAt   DateTime?
+  updatedAt     DateTime       @updatedAt
+
+  @@index([marketId, type, status])
+  @@index([assignedToId, status])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String
+  marketCode String?
+  metadata   Json?
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+}

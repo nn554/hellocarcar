@@ -1,22 +1,41 @@
-# HelloCarCar API Contract (MVP)
+# HelloCarCar API Contract 0.8
 
-All routes are versioned under `/v1`. Responses use `{ data, error, requestId }` envelopes. Customer endpoints enforce buyer ownership; operations endpoints require RBAC.
+Responses use `{ data, error, requestId }`. Session routes use an HttpOnly cookie; bot-only routes additionally require `x-telegram-bot-secret`.
 
-| Method | Route | Purpose |
-|---|---|---|
-| GET | `/v1/vehicles` | Search standard models with filters |
-| GET | `/v1/vehicles/:id/prices` | Return evidence-backed FOB observations |
-| GET | `/v1/suppliers/:id/preview` | Return masked supplier signal |
-| POST | `/v1/reports` | Create a report request and quote |
-| POST | `/v1/payments/proofs` | Upload/register manual T/T proof |
-| GET | `/v1/orders/lookup?pi=...&vin=...` | Ownership-checked logistics lookup |
-| POST | `/v1/watchlists` | Watch model, supplier or price |
-| GET | `/health` | Service health |
+## Public
 
-## Payment adapter
+- `GET /health`, `GET /v1/markets`
+- `GET /v1/vehicles?marketCode=DZ`, `GET /v1/vehicles/:id/prices?marketCode=DZ`
+- `GET /v1/policies?marketCode=DZ`: current reviewed policy guidance only; source URLs and internal states are not exposed.
+- `GET /v1/policies/news?marketCode=DZ`: published, current and evidence-backed policy-news items only; every item includes a source URL for user inspection.
+- `POST /v1/auth/otp/request`, `POST /v1/auth/otp/verify`
+- `POST /v1/auth/telegram/claim`, `GET /v1/auth/telegram/status/:telegramUserId`: bot-secret protected.
 
-`PaymentProvider` exposes `createPayment`, `verifyPayment`, `getPaymentStatus`, and `refundPayment`. MVP implementation is `ManualTtProvider`; online providers must be added without changing report authorization logic.
+## Customer session
 
-## Statuses
+- `GET /v1/auth/me`, `POST /v1/auth/logout`, `POST /v1/auth/telegram/link-token`
+- `GET|POST /v1/decisions`, `GET|POST /v1/reports`, `GET /v1/reports/:id`, `GET /v1/reports/:id/download`
+- `POST /v1/suppliers/recommendations`, `POST /v1/shipping/quotes`
+- `GET /v1/orders/lookup`
+- `GET /v1/payments/destinations`, `GET|POST /v1/payments/orders`, proof upload/download and refund request routes.
 
-`DRAFT`, `QUOTED`, `AWAITING_PAYMENT`, `PENDING_REVIEW`, `PAID`, `REPORT_READY`, `CANCELLED`, `REFUNDED`.
+## Bot gateway
+
+- `GET|PUT /v1/bot/conversations/:telegramUserId`
+- `POST /v1/bot/actions`: discriminated actions for decisions, suppliers, shipping, payments and reports. The Telegram identity is resolved to a normal organization-scoped session user before business services run.
+
+## Operations
+
+- Trusted-data list/create/draft-edit/transition routes under `/v1/admin/trusted-data`, including `policy-news`.
+- Cursor review queue and assignment/completion under `/v1/admin/review-tasks`.
+- `GET /v1/admin/reports/:id` and `PATCH /v1/admin/reports/:id/review` for market-authorized report detail and atomic approval/rejection.
+- Payment destinations, 24-hour exchange rates, orders, signed proof viewing, statement imports, finance review, refunds and subscriptions under `/v1/admin/payments`.
+
+## Invariants
+
+- DZ is active and IR requests fail closed while `PLANNED`.
+- Customer records are scoped by organization and market; bot actions cannot choose another user.
+- Only enabled corporate destinations are customer-visible.
+- Statement matches never activate a subscription; finance approval does.
+- Report and payment object links expire after five minutes.
+- Delete/archive endpoints are intentionally absent until retention and restore rules are approved.

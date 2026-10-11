@@ -1,11 +1,28 @@
 {
   "name": "hellocarcar",
   "private": true,
-  "version": "0.1.0",
-  "description": "HelloCarCar procurement decision assistant MVP",
+  "version": "0.2.0",
+  "description": "Multi-market vehicle procurement decision platform",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "web:dev": "node scripts/serve-static.mjs apps/web 4173",
-    "api:dev": "node apps/api/src/server.mjs",
-    "check": "node scripts/check.mjs"
+    "dev:web": "pnpm --filter @hellocarcar/web dev",
+    "dev:api": "pnpm --filter @hellocarcar/api dev",
+    "dev:admin": "pnpm --filter @hellocarcar/admin dev",
+    "dev:worker": "pnpm --filter @hellocarcar/worker dev",
+    "dev:bot": "pnpm --filter @hellocarcar/bot dev",
+    "build": "pnpm -r --if-present build",
+    "check": "node scripts/check.mjs",
+    "test": "pnpm -r --if-present test",
+    "db:generate": "pnpm --filter @hellocarcar/db generate",
+    "db:migrate": "pnpm --filter @hellocarcar/db migrate",
+    "db:seed": "pnpm --filter @hellocarcar/db seed"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
   }
 }

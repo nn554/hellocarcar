@@ -1,5 +1,27 @@
 {
   "name": "@hellocarcar/web",
   "private": true,
-  "scripts": { "dev": "node ../../scripts/serve-static.mjs . 4173" }
+  "version": "0.2.0",
+  "scripts": {
+    "dev": "next dev -p 4173",
+    "build": "next build",
+    "start": "next start -p 4173",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hellocarcar/contracts": "workspace:*",
+    "@hellocarcar/ui": "workspace:*",
+    "next": "^15.2.4",
+    "next-intl": "^4.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.4",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
+  }
 }

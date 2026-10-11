@@ -1,7 +1,16 @@
 import { spawn } from "node:child_process";
 
-for (const args of [["scripts/serve-static.mjs", "apps/web", "4173"], ["apps/api/src/server.mjs"]]) {
-  const child = spawn(process.execPath, args, { cwd: process.cwd(), detached: true, stdio: "ignore" });
+const pnpm = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+const commands = [
+  ["--filter", "@hellocarcar/web", "dev"],
+  ["--filter", "@hellocarcar/api", "dev"],
+  ["--filter", "@hellocarcar/admin", "dev"],
+  ["--filter", "@hellocarcar/worker", "dev"]
+];
+
+for (const args of commands) {
+  const child = spawn(pnpm, args, { cwd: process.cwd(), detached: true, stdio: "ignore", windowsHide: true });
   child.unref();
 }
-console.log("started web and api");
+
+console.log("Started web, API, admin and worker development processes");

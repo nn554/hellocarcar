@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1E3A"/>
+      <stop offset="1" stop-color="#123F78"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B8F4FF"/>
+      <stop offset="1" stop-color="#4BA8D8"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="512" cy="512" r="472" fill="url(#bg)" stroke="#56D9F4" stroke-width="16"/>
+  <circle cx="512" cy="512" r="410" fill="none" stroke="#2C78B7" stroke-width="3" opacity=".8"/>
+  <path d="M154 512h92M778 512h92M512 154v92M512 778v92" stroke="#56D9F4" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+  <circle cx="154" cy="512" r="13" fill="#B8F4FF" filter="url(#glow)"/>
+  <circle cx="870" cy="512" r="13" fill="#B8F4FF" filter="url(#glow)"/>
+  <circle cx="512" cy="154" r="13" fill="#B8F4FF" filter="url(#glow)"/>
+  <circle cx="512" cy="870" r="13" fill="#B8F4FF" filter="url(#glow)"/>
+  <path d="M248 594c18-76 54-142 108-198 30-31 70-48 112-48h88c42 0 82 17 112 48 54 56 90 122 108 198l24 106c5 23-12 45-36 45H284c-24 0-41-22-36-45z" fill="#0A1730" stroke="#56D9F4" stroke-width="15"/>
+  <path d="M356 492c33-47 74-72 125-72h62c51 0 92 25 125 72l28 42H328z" fill="url(#glass)" stroke="#B8F4FF" stroke-width="8"/>
+  <path d="M512 425v101M398 489h228" stroke="#2C78B7" stroke-width="7" opacity=".85"/>
+  <path d="M284 602h96M644 602h96" stroke="#56D9F4" stroke-width="18" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M320 697h384" stroke="#2C78B7" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="382" cy="704" r="34" fill="#091326" stroke="#56D9F4" stroke-width="10"/>
+  <circle cx="642" cy="704" r="34" fill="#091326" stroke="#56D9F4" stroke-width="10"/>
+  <path d="M490 624h44" stroke="#B8F4FF" stroke-width="10" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M466 647h92" stroke="#56D9F4" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <text x="512" y="848" text-anchor="middle" fill="#B8F4FF" font-family="Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="8">AUTO AI</text>
+</svg>

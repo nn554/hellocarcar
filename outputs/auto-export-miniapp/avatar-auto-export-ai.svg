@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="72" y1="32" x2="438" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0877C9"/><stop offset=".52" stop-color="#0755A7"/><stop offset="1" stop-color="#063B82"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="100" y1="90" x2="420" y2="410" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E4FFFF"/><stop offset=".45" stop-color="#72ECFF"/><stop offset="1" stop-color="#37BCEB"/>
+    </linearGradient>
+    <radialGradient id="glow"><stop stop-color="#8AF4FF" stop-opacity=".35"/><stop offset="1" stop-color="#8AF4FF" stop-opacity="0"/></radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+  <circle cx="256" cy="226" r="190" fill="url(#glow)" filter="url(#blur)"/>
+  <!-- intelligent orbital ring -->
+  <path d="M105 171C139 102 221 71 297 84c57 10 99 38 124 78" fill="none" stroke="#73E9FF" stroke-opacity=".52" stroke-width="5" stroke-linecap="round"/>
+  <path d="M398 158l23 4-13 20" fill="none" stroke="#B4FBFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="112" cy="158" r="8" fill="#B4FBFF"/><circle cx="400" cy="158" r="6" fill="#B4FBFF"/>
+  <!-- AI spark -->
+  <path d="M256 99l10 28 28 10-28 10-10 29-10-29-28-10 28-10z" fill="url(#cyan)"/>
+  <circle cx="256" cy="136" r="37" fill="none" stroke="#79EDFF" stroke-opacity=".32" stroke-width="2"/>
+  <!-- connected circuit traces -->
+  <g fill="none" stroke="#6FE7FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".75">
+    <path d="M120 217h35l18-18h30"/><path d="M392 217h-35l-18-18h-30"/>
+    <path d="M126 270H92v-22"/><path d="M386 270h34v-22"/>
+  </g>
+  <g fill="#C3FCFF"><circle cx="120" cy="217" r="6"/><circle cx="392" cy="217" r="6"/><circle cx="92" cy="248" r="6"/><circle cx="420" cy="248" r="6"/></g>
+  <!-- streamlined export vehicle -->
+  <path d="M117 316c3-18 17-31 37-37l39-12 31-43c8-11 20-17 34-17h54c14 0 27 6 35 17l31 43 38 12c20 6 34 19 37 37l5 29c2 12-7 22-19 22H131c-12 0-21-10-19-22z" fill="none" stroke="url(#cyan)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M214 228h84c11 0 20 5 27 14l20 28H167l23-28c6-9 14-14 24-14z" fill="#65DFF8" fill-opacity=".22" stroke="#B7FAFF" stroke-width="5"/>
+  <path d="M151 303h210" stroke="#9AF5FF" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="183" cy="350" r="29" fill="#07509B" stroke="#B5FAFF" stroke-width="8"/><circle cx="329" cy="350" r="29" fill="#07509B" stroke="#B5FAFF" stroke-width="8"/>
+  <path d="M217 350h78" stroke="#B5FAFF" stroke-width="8" stroke-linecap="round"/>
+  <!-- data waves -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M53 397c31-19 62-19 93 0s62 19 93 0 62-19 93 0 62 19 93 0 62-19 93 0" stroke="#54D8F5" stroke-width="8" opacity=".85"/>
+    <path d="M40 424c31-19 62-19 93 0s62 19 93 0 62-19 93 0 62 19 93 0 62-19 93 0" stroke="#2EAAD9" stroke-width="7" opacity=".7"/>
+    <path d="M67 448c27-16 54-16 81 0s54 16 81 0 54-16 81 0 54 16 81 0 54-16 81 0" stroke="#197FC2" stroke-width="6" opacity=".65"/>
+  </g>
+  <g fill="#B8FBFF"><circle cx="63" cy="397" r="4"/><circle cx="449" cy="397" r="4"/></g>
+</svg>
